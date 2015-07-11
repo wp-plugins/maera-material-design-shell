@@ -1,0 +1,7 @@
+<a href="{{ site.url }}" class="brand-logo">
+	{% if site_logo.id %}
+		<img src="{{ TimberImage(site_logo.id).src }}">
+	{% else %}
+		{{ site.name }}
+	{% endif %}
+</a>

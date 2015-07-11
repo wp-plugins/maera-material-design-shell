@@ -1,0 +1,39 @@
+<div class="entry-header">
+
+	{% if layout == '0' %}
+
+		{% if post.thumbnail and theme.theme_mod('feat_img_height', 60) %}
+			{% if ( post.post_type != 'post' and theme.theme_mod('feat_img_post_only', 1) != 1 ) or post.post_type == 'post' %}
+				<div class="parallax-container featured-image">
+					<div class="parallax">
+						<img class="featured-image" src="{{ post.get_thumbnail.get_src }}">
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+		<div class="container entry-content{% if theme.theme_mod('flow_text_content') == 1 %} flow-text{% endif %}" itemprop="description">
+			{% do action( 'maera/teaser/start', post.ID ) %}
+			<title itemprop="name">{{ post.title }}</title>
+			<h1 class="entry-title"><a href="{{ post.link }}">{{ post.title|apply_filters( 'maera/title' ) }}</a></h1>
+		</div>
+
+	{% else %}
+
+		{% if post.thumbnail and theme.theme_mod('feat_img_height', 60) %}
+			{% if ( post.post_type != 'post' and theme.theme_mod('feat_img_post_only', 1) != 1 ) or post.post_type == 'post' %}
+				<div class="featured-image">
+					<a class="featured-image" href="{{ post.link }}">
+						<img class="featured-image" src="{{ post.thumbnail.src }}">
+					</a>
+				</div>
+			{% endif %}
+		{% endif %}
+		<div class="entry-content{% if theme.theme_mod('flow_text_content') == 1 %} flow-text{% endif %}" itemprop="description">
+			{% do action( 'maera/teaser/start', post.ID ) %}
+			<title itemprop="name">{{ post.title }}</title>
+			<h1 class="entry-title"><a href="{{ post.link }}">{{ post.title|apply_filters( 'maera/title' ) }}</a></h1>
+		</div>
+
+	{% endif %}
+
+</div>

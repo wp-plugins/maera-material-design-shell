@@ -1,0 +1,24 @@
+{% import 'grid_classes.html.twig' as grid %}
+
+<main{% if layout != '0' %} class="container"{% endif %}>
+	{% do action( 'maera/wrap/before', post.ID ) %}
+{% if layout != '0' %}
+		<div class="{{ grid.row() }}">
+			<div class="col s12{% if layout != '0' %} m{{ 12 - theme.theme_mod('sidebar_width', '4') }}{% if layout == '2' %} right{% endif %}{% endif %} {{ 'main-content-area'|apply_filters( 'maera/section_class/content' ) }} main-content-wrapper">
+{% endif %}
+				{% do action( 'maera/content/before', post.ID ) %}
+				<div class="content" id="content" itemprop="mainContentOfPage">
+					{% do action( 'maera/main/before', post.ID ) %}
+					{% block main %}{{ __( 'Sorry, no content', 'maera' ) }}{% endblock %}
+					{% do action( 'maera/main/after', post.ID ) %}
+				</div>
+				{% do action( 'maera/content/after' ) %}
+{% if layout != '0' %}
+			</div>
+			<div class="col s12 m{{ theme.theme_mod('sidebar_width', '4') }}">
+				{{ sidebar.primary }}
+			</div>
+		</div>
+{% endif %}
+	{% do action( 'maera/wrap/after' ) %}
+</main>
