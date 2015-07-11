@@ -1,0 +1,32 @@
+<ul class="collapsible collapsible-accordion side-nav{% if theme.theme_mod('nav_mode') == 'static-left' %} fixed{% endif %}" id="mobile-menu">
+	<li><h1>{% include 'site-logo.twig' %}</h1></li>
+	{% for item in menu.primary.items %}
+		{% if item.get_children %}
+			{% set expanded = 'no' %}
+			{% if 'current-menu-item' in item.classes %}{% set expanded = 'yes' %}{% endif %}
+			{% for child in item.get_children %}
+				{% if 'current-menu-item' in child.classes %}{% set expanded = 'yes' %}{% endif %}
+			{% endfor %}
+
+			<li{% if expanded == 'yes' %} class="active"{% endif %}>
+
+				<a class="bold collapsible-header {% if 'current-menu-item' in item.classes %}active{% endif %} waves-effect" href="#">{{ item.title }}</a>
+				<div class="collapsible-body"{% if expanded == 'yes' %} style="display: block !important;"{% endif %}>
+					<ul>
+						{% for child in item.get_children %}
+							<li id="menu-item-{{ child.ID }}" class="menu-item menu-item-type-{{child.type}} menu-item-object-{{child.object}} menu-item-{{child.ID}}{% if 'current-menu-item' in child.classes %} active{% endif %}">
+								<a href="{{child.link}}"{% if child.get_children %} class="dropdown-button" data-activates="dropdown-{{ child.ID }}"{% endif %}>
+									{{ child.title }}{% if child.get_children %}<i class="mdi-navigation-arrow-drop-down right"></i>{% endif %}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</li>
+		{% else %}
+			<li>
+				<a class="bold {% if item.get_children %}collapsible-header {% endif %}{% if 'current-menu-item' in item.classes %}active{% endif %} waves-effect" href="{{ item.link }}">{{ item.title }}</a>
+			</li>
+		{% endif %}
+	{% endfor %}
+</ul>

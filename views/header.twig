@@ -1,0 +1,34 @@
+{% import 'grid_classes.html.twig' as grid %}
+{% from 'column_classes.html.twig' import column_classes as column_classes %}
+
+{% include 'head.twig' %}
+<body class="{{ body_class }}">
+	<a href="#content" class="sr-only skip-link screen-reader-text">{{ __( 'Skip to main content', 'maera' ) }}</a>
+	<header>
+		{% do action( 'get_header' ) %}
+		{% do action( 'maera/header/before', post.ID ) %}
+		{% if not theme.theme_mod('navbar_disable', 0) %}
+			{% if theme.theme_mod('nav_mode', 'default' ) == 'combo' %}
+				{% include 'nav/combined-offcanvas.twig' %}
+			{% else %}
+				{% include 'nav/default.twig' %}
+			{% endif %}
+		{% endif %}
+
+		{% if not theme.theme_mod('header_front', 1) or ( theme.theme_mod('header_front', 1) and function('is_front_page') ) %}
+			{% if header_img %}
+				<div class="header hero parallax-container">
+					<div class="parallax {{ ''|apply_filters('maera_md/header_classes') }}"><img src="{{ header_img }}"></div>
+					<div class="container">
+						{{ theme.theme_mod('header_content', '') }}
+						<div class="{{ grid.row() }}">
+							{% if sidebar.header %}
+								{{ sidebar.header }}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+		{% do action( 'maera/header/after', post.ID ) %}
+	</header>

@@ -1,0 +1,69 @@
+<header id="masthead" class="site-header" role="banner">
+	<div id="header-wrapper" class="{{ red|apply_filters('maera/nav/class') }} lighten-1">
+		<div class="header-row">
+			<div class="header-row left">
+
+				{% if function('has_nav_menu', 'offcanvas') %}
+					<div class="menu-trigger"><span class="dashicons dashicons-menu"></span></div>
+				{% endif %}
+
+				<div class="site-branding">
+					{% include 'site-logo.twig' %}
+				</div>
+
+			</div>
+			<div class="header-row right">
+				{% if function( 'is_active_sidebar', 'offcanvas') %}
+					<div class="sidebar-button">
+						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="768" height="768" viewBox="0 0 768 768">
+							<path d="M192 320c-35.36 0-64 28.64-64 64s28.64 64 64 64 64-28.64 64-64-28.64-64-64-64zM576 320c-35.36 0-64 28.64-64 64s28.64 64 64 64 64-28.64 64-64-28.64-64-64-64zM384 320c-35.36 0-64 28.64-64 64s28.64 64 64 64 64-28.64 64-64-28.64-64-64-64z"></path>
+						</svg>
+					</div>
+				{% endif %}
+				<div class="search-button">
+					<span class="dashicons dashicons-search"></span>
+					<div class="close-button-wrapper search"><span class="close dashicons dashicons-no"></span></div>
+				</div>
+				<div class="breadcrumbs">
+					{% do action( 'maera/breadcrumbs' ) %}
+				</div>
+			</div>
+		</div>
+		<div class="header-search-wrapper">
+			<div class="search-wrapper">
+				<form role="search" method="get" class="search-form" action="{{ function('esc_url', function('home_url', '/') ) }}">
+					<label class="screen-reader-text">{{ __( 'Search for:', 'maera_md' ) }}</label>
+					<input id="header-search"type="search" value="{{ function('get_search_query') }}" name="s" class="search-field" placeholder="{{ __( 'Search', 'maera_md' ) }} {{ function('bloginfo', 'name' ) }}" required>
+				</form>
+			</div>
+		</div>
+		{% if function('has_nav_menu', 'horizontal') %}
+			<div class="swiper-container horizontal-menu-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-container horizontal-menu">
+						<div class="swiper-wrapper">
+							{% for item in menu.horizontal.get_items %}
+								<div class="swiper-slide {{ item.classes | join(' ') }}">
+									<a href="{{ item.get_link }}">{{ item.title }}</a>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+	{% if function('has_nav_menu', 'offcanvas') %}
+		<div class="left-offcanvas-menu">
+			<span class="close dashicons dashicons-no"></span>
+			<div class="clearfix"></div>
+			<ul id="menu-offcanvas" class="menu">
+				{% for item in menu.offcanvas.get_items %}
+					<li class="{{ item.classes | join(' ') }}">
+						<a href="{{ item.get_link }}">{{ item.title }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+</header>
